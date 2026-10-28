@@ -1,0 +1,9 @@
+# Respuestas cacheadas de las APIs externas: se regeneran solas.
+cache/*.json
+
+# Restos de Windows y de los editores
+Thumbs.db
+desktop.ini
+*.Zone.Identifier
+.vscode/
+.idea/

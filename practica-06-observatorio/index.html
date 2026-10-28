@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Observatorio Global de Cultivos</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="barra">
+    <div id="marca">
+        <span id="logo">🌍</span>
+        <div>
+            <h1>Observatorio Global de Cultivos</h1>
+            <p>Práctica 06 · Three.js + proxy PHP + GBIF · NASA POWER · Open-Meteo · SoilGrids</p>
+        </div>
+    </div>
+    <div id="estado" class="chip">Cargando globo…</div>
+</header>
+
+<main id="tablero">
+
+    <!-- ================= IZQUIERDA: el globo ================= -->
+    <section id="col-globo">
+        <div id="caja-globo">
+            <canvas id="globo"></canvas>
+            <div id="cargando" class="oculto">Consultando APIs…</div>
+            <p id="pista">Gira el globo arrastrando. Haz clic en cualquier punto
+               de tierra para consultarlo.</p>
+        </div>
+
+        <div class="panel" id="controles">
+            <label class="campo">
+                <span>Especie</span>
+                <select id="sel-especie"></select>
+            </label>
+
+            <label class="campo">
+                <span>Ir a un lugar por nombre</span>
+                <div class="fila">
+                    <input type="text" id="buscador" placeholder="Jutiapa, Córdoba, Chapingo…">
+                    <button id="btn-buscar" class="secundario">Buscar</button>
+                </div>
+            </label>
+            <div id="resultados-busqueda" class="lista"></div>
+
+            <div class="botones dos">
+                <button id="btn-slot-a" class="secundario">Fijar como A</button>
+                <button id="btn-slot-b" class="secundario">Fijar como B</button>
+            </div>
+            <div class="botones dos">
+                <button id="btn-ocurrencias" class="secundario">Ver ocurrencias GBIF</button>
+                <button id="btn-limpiar" class="secundario">Limpiar globo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= DERECHA: los datos ================= -->
+    <section id="col-datos">
+
+        <div class="panel oculto" id="panel-sitio">
+            <h2 id="sitio-titulo">—</h2>
+            <p id="sitio-coords" class="nota">—</p>
+
+            <div id="medidor"><div id="medidor-marca" class="relleno"></div></div>
+            <p id="sitio-nivel" class="nivel">—</p>
+
+            <h3>Datos reales del punto</h3>
+            <div id="tabla-datos"></div>
+
+            <h3>De dato real a parámetro del simulador</h3>
+            <p class="nota">El motor de la Práctica 05 habla en porcentajes.
+               Esta tabla dice con qué criterio se convirtió cada medición.</p>
+            <div id="traduccion"></div>
+
+            <h3>Simulación de crecimiento aquí</h3>
+            <div id="aviso-simulacion" class="aviso aviso-amarillo oculto"></div>
+            <div class="kpis">
+                <div class="kpi"><span>Biomasa final</span><b id="kpi-biomasa">—</b></div>
+                <div class="kpi"><span>Madurez</span><b id="kpi-madurez">—</b></div>
+                <div class="kpi"><span>Estrés medio</span><b id="kpi-estres">—</b></div>
+            </div>
+            <div class="grafica"><canvas id="g-biomasa"></canvas></div>
+
+            <h3>Decisiones geo-agronómicas</h3>
+            <div id="decisiones" class="lista"></div>
+
+            <h3>Qué sembrar aquí</h3>
+            <p class="nota">Las seis especies del catálogo ordenadas por idoneidad
+               en este punto, con los mismos datos de clima y suelo.</p>
+            <div id="ranking"></div>
+        </div>
+
+        <div class="panel">
+            <h2>Comparar dos lugares</h2>
+            <div id="comparacion" class="tarjetas">
+                <p class="nota">Consulta un punto y pulsa «Fijar como A».
+                   Luego otro y «Fijar como B».</p>
+            </div>
+            <div id="veredicto-ab" class="aviso"></div>
+        </div>
+
+    </section>
+</main>
+
+<!-- Librerías -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<!-- Proyecto -->
+<script src="js/api.js"></script>
+<script src="js/modelos.js"></script>
+<script src="js/motor.js"></script>
+<script src="js/idoneidad.js"></script>
+<script src="js/globo.js"></script>
+<script src="js/grafica.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

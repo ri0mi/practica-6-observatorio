@@ -1,0 +1,240 @@
+/* ==========================================================================
+   OBSERVATORIO GLOBAL DE CULTIVOS
+   ========================================================================== */
+
+:root {
+    --fondo:        #0d1117;
+    --panel:        #161b22;
+    --panel-alto:   #1c232c;
+    --borde:        #2a3340;
+    --tinta:        #c9d1d9;
+    --tinta-fuerte: #e6edf3;
+    --tenue:        #8b98a5;
+    --acento:       #5fd08a;
+    --acento-sec:   #3987e5;
+
+    --excelente:    #3fb950;
+    --buena:        #86b93c;
+    --marginal:     #fab219;
+    --desaconsejada:#d03b3b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, "Segoe UI", Arial, sans-serif;
+    background: var(--fondo);
+    color: var(--tinta);
+    font-size: 14px;
+    min-height: 100vh;
+}
+
+h1 { font-size: 15px; color: var(--tinta-fuerte); }
+h2 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--acento); margin-bottom: 10px;
+}
+h3 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .8px;
+    color: var(--tenue); margin: 18px 0 8px;
+}
+
+.nota { font-size: 11.5px; color: var(--tenue); line-height: 1.5; }
+.oculto { display: none !important; }
+
+/* ---------- Barra ---------- */
+#barra {
+    display: flex; align-items: center; gap: 20px;
+    padding: 10px 18px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--borde);
+    position: sticky; top: 0; z-index: 50;
+}
+#marca { display: flex; align-items: center; gap: 10px; }
+#logo { font-size: 22px; }
+#marca p { font-size: 11px; color: var(--tenue); margin-top: 2px; }
+
+.chip {
+    margin-left: auto;
+    padding: 4px 10px; font-size: 11px; border-radius: 20px;
+    background: var(--panel-alto); border: 1px solid var(--borde);
+    color: var(--tenue); white-space: nowrap;
+}
+.chip.ok    { border-color: var(--excelente); color: #7ee07e; }
+.chip.error { border-color: var(--desaconsejada); color: #ff8d8d; }
+
+/* ---------- Rejilla general ---------- */
+#tablero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 460px;
+    gap: 12px;
+    padding: 12px;
+    align-items: start;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 14px;
+}
+
+#col-globo { display: flex; flex-direction: column; gap: 12px;
+             position: sticky; top: 62px; }
+#col-datos { display: flex; flex-direction: column; gap: 12px;
+             max-height: calc(100vh - 86px); overflow-y: auto; }
+
+/* ---------- Globo ---------- */
+#caja-globo {
+    position: relative;
+    background: #070b12;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    overflow: hidden;
+}
+#globo { width: 100%; height: 540px; display: block; cursor: grab; }
+#globo:active { cursor: grabbing; }
+
+#pista {
+    position: absolute; bottom: 10px; left: 14px; right: 14px;
+    font-size: 11px; color: var(--tenue); pointer-events: none;
+    text-shadow: 0 1px 4px #000;
+}
+
+#cargando {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    padding: 5px 12px; font-size: 11.5px;
+    background: rgba(13,17,23,.92); border: 1px solid var(--acento-sec);
+    border-radius: 20px; color: var(--tinta-fuerte);
+}
+
+/* ---------- Formularios ---------- */
+.campo { display: block; margin-bottom: 10px; }
+.campo > span { display: block; font-size: 11.5px; color: var(--tenue); margin-bottom: 4px; }
+.fila { display: flex; gap: 6px; }
+
+select, input[type="text"] {
+    width: 100%; padding: 7px 8px;
+    font-family: inherit; font-size: 13px;
+    color: var(--tinta); background: var(--panel-alto);
+    border: 1px solid var(--borde); border-radius: 6px;
+}
+select:focus, input:focus { outline: 1px solid var(--acento-sec); }
+
+button {
+    font-family: inherit; font-size: 13px; cursor: pointer;
+    border-radius: 7px; padding: 8px 12px;
+    border: 1px solid var(--borde);
+    background: var(--panel-alto); color: var(--tinta);
+}
+button:hover { border-color: var(--acento); }
+.secundario { font-size: 12px; }
+
+.botones { display: flex; gap: 8px; margin-top: 8px; }
+.botones.dos button { flex: 1; }
+
+.resultado {
+    display: block; width: 100%; text-align: left;
+    margin-bottom: 4px; padding: 7px 9px; font-size: 12.5px;
+}
+.resultado .nota { display: block; }
+
+/* ---------- Medidor de idoneidad ---------- */
+#medidor {
+    height: 8px; border-radius: 4px; margin: 12px 0 6px;
+    background: var(--panel-alto); border: 1px solid var(--borde);
+    overflow: hidden;
+}
+.relleno { height: 100%; width: 0; transition: width .4s ease; }
+.relleno.excelente     { background: var(--excelente); }
+.relleno.buena         { background: var(--buena); }
+.relleno.marginal      { background: var(--marginal); }
+.relleno.desaconsejada { background: var(--desaconsejada); }
+
+.nivel { font-size: 13px; font-weight: 600; }
+.nivel.excelente, b.excelente         { color: var(--excelente); }
+.nivel.buena, b.buena                 { color: var(--buena); }
+.nivel.marginal, b.marginal           { color: var(--marginal); }
+.nivel.desaconsejada, b.desaconsejada { color: var(--desaconsejada); }
+.nivel.sin-datos, b.sin-datos         { color: var(--tenue); font-weight: 500; }
+
+/* ---------- Tablas ---------- */
+.tabla { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tabla th, .tabla td {
+    padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--borde);
+    vertical-align: top;
+}
+.tabla th {
+    color: var(--tenue); font-size: 10.5px; text-transform: uppercase;
+    letter-spacing: .6px; font-weight: 600;
+}
+.tabla td.grupo { color: var(--acento); font-size: 10.5px;
+                  text-transform: uppercase; letter-spacing: .5px; }
+.tabla td.valor { text-align: right; color: var(--tinta-fuerte);
+                  font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tabla tr.destacada { background: var(--panel-alto); }
+
+/* ---------- KPIs ---------- */
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+.kpi {
+    background: var(--panel-alto); border: 1px solid var(--borde);
+    border-radius: 8px; padding: 8px 10px;
+}
+.kpi span { display: block; font-size: 10px; text-transform: uppercase;
+            letter-spacing: .6px; color: var(--tenue); }
+.kpi b { display: block; font-size: 15px; color: var(--tinta-fuerte);
+         margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+/* ---------- Gráfica ---------- */
+.grafica { position: relative; height: 190px; }
+.grafica canvas { width: 100% !important; height: 190px !important; }
+
+/* ---------- Avisos y listas ---------- */
+.aviso {
+    padding: 10px 12px; border-radius: 8px; font-size: 12.5px; line-height: 1.55;
+    border-left: 3px solid var(--acento-sec); background: var(--panel-alto);
+    margin-top: 10px;
+}
+.aviso:empty { display: none; }
+.aviso-amarillo { border-left-color: var(--marginal); margin-bottom: 8px; }
+
+.lista { display: flex; flex-direction: column; gap: 7px; }
+.item {
+    display: flex; gap: 9px; align-items: flex-start;
+    padding: 9px 10px; border-radius: 8px;
+    background: var(--panel-alto); border: 1px solid var(--borde);
+    font-size: 12px; line-height: 1.5;
+}
+.item .icono { font-size: 12px; line-height: 1.3; }
+.item.critico { border-color: #58282c; }
+.item.aviso   { border-color: #5a4a1d; }
+
+/* ---------- Tarjetas A/B ---------- */
+.tarjetas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tarjeta {
+    background: var(--panel-alto); border: 1px solid var(--borde);
+    border-radius: 9px; padding: 12px;
+}
+.tarjeta.vacia { color: var(--tenue); font-size: 12px; display: flex;
+                 align-items: center; justify-content: center; min-height: 90px; }
+.tarjeta h4 { font-size: 12px; color: var(--tinta-fuerte);
+              display: flex; align-items: center; gap: 7px; }
+.tarjeta .marca { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.tarjeta dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px;
+              font-size: 12px; margin-top: 9px; }
+.tarjeta dt { color: var(--tenue); }
+.tarjeta dd { text-align: right; color: var(--tinta-fuerte);
+              font-variant-numeric: tabular-nums; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1150px) {
+    #tablero { grid-template-columns: 1fr; }
+    #col-globo { position: static; }
+    #col-datos { max-height: none; }
+    #globo { height: 420px; }
+}
+@media (max-width: 700px) {
+    .kpis { grid-template-columns: 1fr; }
+    .tarjetas { grid-template-columns: 1fr; }
+    #barra { flex-wrap: wrap; }
+}
